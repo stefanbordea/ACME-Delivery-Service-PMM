@@ -1,6 +1,6 @@
 package com.acme.delivery.domain;
 
-public class Address {
+public class Address extends BaseModel{
 
     private String street;
     private String streetNumber;
