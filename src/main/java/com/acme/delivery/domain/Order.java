@@ -1,16 +1,19 @@
 package com.acme.delivery.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
 @Data
-@SuperBuilder
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
 @Table(name = "ORDER", indexes = {@Index(name = "ORDER_IDX_01", columnList = "serial")})
@@ -31,7 +34,7 @@ public class Order extends BaseModel
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
     private Date date;
-	@Column(precision = 10, scale = 2, nullable = false)
+	@Column(precision = 15, scale = 2, nullable = false)
     private BigDecimal totalPrice;
 	@OneToMany(mappedBy = "order",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
