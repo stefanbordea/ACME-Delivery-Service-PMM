@@ -4,11 +4,14 @@ import com.acme.delivery.domain.Account;
 import com.acme.delivery.domain.Order;
 import com.acme.delivery.domain.PaymentMethod;
 import com.acme.delivery.domain.Product;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-
+@Service
+@RequiredArgsConstructor
 public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderService{
 
 	@Override

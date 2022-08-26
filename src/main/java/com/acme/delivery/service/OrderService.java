@@ -3,9 +3,9 @@ import com.acme.delivery.domain.Account;
 import com.acme.delivery.domain.Order;
 import com.acme.delivery.domain.PaymentMethod;
 import com.acme.delivery.domain.Product;
-
 import java.util.Date;
 import java.util.List;
+
 
 public interface OrderService extends BaseService<Order>
 {

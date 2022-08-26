@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order,Long> {
 
-
+ //add custom methods in a few ours or days!
 
 }
