@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrderService extends BaseService<Order>
 {
-	Order initiateOrder(Account customer);
+	Order newOrder(Account customer);
 
 	void addItem(Order order, Product product, int quantity);
 
