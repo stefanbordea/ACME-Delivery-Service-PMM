@@ -8,6 +8,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -17,20 +20,27 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ACCOUNT", indexes = {@Index(name = "ACCOUNT_IDX_01", columnList = "email")})
-@SequenceGenerator(name = "idGenerator", sequenceName = "ACCOUNT_SEQ", allocationSize = 1)
+@Table(name = "ACCOUNTS", indexes = {@Index(name = "ACCOUNTS_IDX_01", columnList = "email")})
+@SequenceGenerator(name = "idGenerator", sequenceName = "ACCOUNTS_SEQ", allocationSize = 1)
 public class Account extends BaseModel {
 
 	@Column(length = 50, nullable = false, unique = true)
+	@NotEmpty
+	@NotNull
+	@Email
     private String email;
 	@Column(length = 30, nullable = false)
+	@NotNull
+	@NotEmpty
     private String password;
 	@Column(length = 30, nullable = false, unique = true)
+	@NotEmpty
+	@NotNull
     private String phoneNumber;
-	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Address> addresses;
-	@OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Card> savedCards;
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Order> pastOrders;
 }
