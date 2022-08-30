@@ -23,22 +23,27 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "ORDER_ITEM")
+@Table(name = "ORDER_ITEMS")
 @SequenceGenerator(name = "idGenerator", sequenceName = "ORDER_ITEMS_SEQ", initialValue = 1, allocationSize = 1)
 public class OrderItem extends BaseModel {
+
 	@Min(value = 0)
-	@Column(precision = 15, scale = 2, nullable = false)
+	@Column(precision = 10, scale = 2, nullable = false)
 	@NotNull
 	private Integer quantity;
-	@Column(precision = 15, scale = 2, nullable = false)
+  
+	@Column(precision = 10, scale = 2, nullable = false)
 	@Min(value = 0)
 	@NotNull
 	private BigDecimal price;
+  
 	@OneToOne
 	@NotNull
 	private Product product;
+  
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JsonIgnore
 	private Order order;
+
 
 }
