@@ -7,15 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Set;
 
@@ -40,7 +32,7 @@ public class Store extends BaseModel {
 	private DayOfWeek openDays;
 	@Enumerated(EnumType.STRING)
 	private StoreCategory categories;
-	@Column(length = 50, nullable = false, unique = true)
+	@OneToOne
 	private Address address;
 	@ManyToMany
 	@JoinTable(name = "store_products", joinColumns = {@JoinColumn(name = "store_id")}, inverseJoinColumns = {@JoinColumn(name = "product_id")})
