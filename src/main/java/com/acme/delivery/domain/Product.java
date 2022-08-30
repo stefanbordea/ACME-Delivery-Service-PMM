@@ -15,7 +15,6 @@ import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -37,5 +36,5 @@ public class Product extends BaseModel {
 	@Column(precision = 10, scale = 2, nullable = false)
 	private BigDecimal price;
 	@Enumerated(EnumType.STRING)
-	private Set<ProductCategory> categories;
+	private ProductCategory categories;
 }

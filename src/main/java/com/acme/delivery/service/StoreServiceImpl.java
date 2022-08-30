@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreService {
@@ -26,7 +24,7 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 	}
 
 	@Override
-	public Store findByCategory(final Set<StoreCategory> categories) {
-		return storeRepository.findStoreByCategories(categories);
+	public Store findByCategory(final StoreCategory[] categories) {
+		return storeRepository.findStoresByCategories(categories);
 	}
 }
