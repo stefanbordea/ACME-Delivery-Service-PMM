@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
@@ -16,26 +18,35 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-@Table(name = "ORDER", indexes = {@Index(name = "ORDER_IDX_01", columnList = "serial")})
-@SequenceGenerator(name = "idGenerator", sequenceName = "ORDER_SEQ", initialValue = 1, allocationSize = 1)
+@Table(name = "ORDERS", indexes = {@Index(name = "ORDERS_IDX_01", columnList = "serial")})
+@SequenceGenerator(name = "idGenerator", sequenceName = "ORDERS_SEQ", initialValue = 1, allocationSize = 1)
 public class Order extends BaseModel
 {
-  @ManyToOne
-  @JoinColumn(name = "customer_id")
-    private Account customer;
-	@ManyToOne
-	@JoinColumn(name = "deliveryAddress_id")
-    private Address deliveryAddress;
+	@NotNull
+	private Account account;
+  
+	@NotNull
+	private Address deliveryAddress;
+  
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20, nullable = false)
-    private PaymentMethod paymentMethod;
+	@NotNull
+	private PaymentMethod paymentMethod;
+  
 	@Column(length = 50, nullable = false)
-    private String serial;
+	private String serial;
+  
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-    private Date date;
+	@NotNull
+	private Date order_date;
+  
 	@Column(precision = 15, scale = 2, nullable = false)
-    private BigDecimal totalPrice;
+	@Min(value=0)
+	@NotNull
+	private BigDecimal totalPrice;
+  
 	@OneToMany(mappedBy = "order",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<OrderItem> orderItems;
+	@NotNull
+	private Set<OrderItem> orderItems;
 }
