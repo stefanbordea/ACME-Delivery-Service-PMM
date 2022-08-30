@@ -12,22 +12,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderService{
+public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderService {
 	private OrderRepository orderRepository;
+
 	@Override
 	public JpaRepository<Order, Long> getRepository() {
 		return orderRepository;
 	}
 
 	@Override
-	public Order newOrder(final Account customer){
-	return Order.builder().customer(customer).orderItems(new HashSet<>()).build();}
+	public Order newOrder(final Account customer) {
+		return Order.builder().account(customer).orderItems(new HashSet<>()).build();
+	}
 
 	@Override
 	public void addItem(final Order order, final Product product, final int quantity) {
@@ -48,9 +52,11 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
 		logger.debug("Product[{}] added to Order[{}]", product, order);
 	}
+
 	private OrderItem newOrderItem(Order order, Product product, int quantity) {
 		return OrderItem.builder().product(product).order(order).quantity(quantity).price(product.getPrice()).build();
 	}
+
 	@Override
 	public void updateItem(final Order order, final Product product, final int quantity) {
 		if (checkNullability(order, product)) {
@@ -71,6 +77,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		order.getOrderItems().removeIf(item -> item.getProduct().getSerial().equals(product.getSerial()));
 		logger.debug("Product[{}] removed from Order[{}]", product, order);
 	}
+
 	private boolean checkNullability(Order order, Product product) {
 		if (order == null) {
 			logger.warn("Order is null.");
@@ -82,6 +89,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		}
 		return false;
 	}
+
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 	public Order checkout(final Order order, final PaymentMethod paymentMethod) {
@@ -93,27 +101,29 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
 		// Set all order fields with proper values
 		order.setPaymentMethod(paymentMethod);
-		order.setDate((new Date()));
+		order.setOrder_date((new Date()));
 		order.setTotalPrice(finalCost(order));
 
 		return create(order);
 	}
+
 	private boolean validate(Order order) {
-		return order != null && !order.getOrderItems().isEmpty() && order.getCustomer() != null;
+		return order != null && !order.getOrderItems().isEmpty() && order.getAccount() != null;
 	}
+
 	@Override
 	public List<Order> findBySubmitDate(final Date submitDate) {
 		return orderRepository.findBySubmitDate(submitDate);
 	}
+
 	private BigDecimal finalCost(Order order) {
 		BigDecimal totalCost = new BigDecimal(0);
 
-		for (OrderItem item: order.getOrderItems()){
-			totalCost=totalCost.add(item.getPrice().multiply(new BigDecimal(item.getQuantity())));
+		for (OrderItem item : order.getOrderItems()) {
+			totalCost = totalCost.add(item.getPrice().multiply(new BigDecimal(item.getQuantity())));
 		}
-		logger.debug("Totalcost is {}",totalCost);
+		logger.debug("Totalcost is {}", totalCost);
 		return totalCost;
 	}
-
 
 }
