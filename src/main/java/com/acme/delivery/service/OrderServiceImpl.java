@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderService {
-	private OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 
 	@Override
 	public JpaRepository<Order, Long> getRepository() {
