@@ -41,6 +41,6 @@ public class Account extends BaseModel {
     private Set<Address> addresses;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Card> savedCards;
-	@OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Order> pastOrders;
 }
