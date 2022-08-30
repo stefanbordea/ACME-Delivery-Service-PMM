@@ -37,12 +37,12 @@ public class Store extends BaseModel {
 	@Column(length = 50, nullable = false)
 	private String email;
 	@Enumerated(EnumType.STRING)
-	private Set<DayOfWeek> openDays;
+	private DayOfWeek openDays;
 	@Enumerated(EnumType.STRING)
-	private Set<StoreCategory> categories;
+	private StoreCategory categories;
 	@Column(length = 50, nullable = false, unique = true)
 	private Address address;
 	@ManyToMany
-	@JoinTable(name = "store_product", joinColumns = {@JoinColumn(name = "store_id")}, inverseJoinColumns = {@JoinColumn(name = "product_id")})
+	@JoinTable(name = "store_products", joinColumns = {@JoinColumn(name = "store_id")}, inverseJoinColumns = {@JoinColumn(name = "product_id")})
 	private Set<Product> productsMenu;
 }
