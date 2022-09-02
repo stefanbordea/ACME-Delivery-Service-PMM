@@ -1,5 +1,6 @@
 package com.acme.delivery.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,12 +46,15 @@ public class Account extends BaseModel {
 	@NotNull
 	private String phoneNumber;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<Address> addresses;
 
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Card> savedCards;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Order> pastOrders;
 }
