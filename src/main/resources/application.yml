@@ -1,4 +1,8 @@
 spring:
+    security:
+        user:
+            name: username
+            password: password
     data:
         jpa:
             repositories:
@@ -16,7 +20,7 @@ spring:
             minimum-idle: 1
             pool-name: eshopConnectionPooling
             transaction-isolation: TRANSACTION_READ_COMMITTED
-            username: username
+            username: stefan
             password: password
             data-source-properties:
                 cachePrepStmts: true
@@ -27,7 +31,7 @@ spring:
     jpa:
         generate-ddl: true
         hibernate:
-            ddl-auto: create
+            ddl-auto: create-drop
             naming:
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
             use-new-id-generator-mappings: true
