@@ -23,9 +23,12 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 	}
 
 	@Override
-	public Account findByPhoneNumber(final String phoneNumber) {
-		return accountRepository.findByPhoneNumber(phoneNumber);
+	public Account findByPhoneNumber(final String phoneNumber) { return accountRepository.findByPhoneNumber(phoneNumber);
 	}
 
+	@Override
+	public void deleteAccountByEmail(final String email) {
+		 accountRepository.deleteAccountByEmail(email);
+	}
 
 }
