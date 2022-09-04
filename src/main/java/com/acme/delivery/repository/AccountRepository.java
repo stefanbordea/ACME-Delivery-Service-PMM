@@ -11,4 +11,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
 	Account findByPhoneNumber(String phoneNumber);
 
+	void deleteAccountByEmail(String email);
+
+
 }

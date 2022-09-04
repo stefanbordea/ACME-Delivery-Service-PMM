@@ -8,4 +8,6 @@ public interface AccountService extends BaseService<Account>{
 
 	Account findByPhoneNumber(String phoneNumber);
 
+	void deleteAccountByEmail(String email);
+
 }
