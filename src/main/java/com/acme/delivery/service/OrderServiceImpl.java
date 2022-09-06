@@ -7,6 +7,7 @@ import com.acme.delivery.domain.PaymentMethod;
 import com.acme.delivery.domain.Product;
 import com.acme.delivery.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -112,35 +114,45 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		// Set all order fields with proper values
 		order.setSerial(getSerial(10));
 		order.setPaymentMethod(paymentMethod);
-        order.setDeliveryAddress(order.getAccount().getAddresses().stream().findFirst().get());
+		//order.setDeliveryAddress(order.getAccount().getAddresses().stream().findFirst().get());
 		order.setOrder_date((new Date()));
 		order.setTotalPrice(finalCost(order));
 
 		return create(order);
 	}
-String getSerial(int n){
-	String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-			+ "0123456789"
-			+ "abcdefghijklmnopqrstuvxyz";
 
-	// create StringBuffer size of AlphaNumericString
-	StringBuilder sb = new StringBuilder(n);
+	@Override
+	public void addListOfItems(final Order order, final Set<OrderItem> items) {
+		for(OrderItem item:items){
 
-	for (int i = 0; i < n; i++) {
+			addItem(order,item.getProduct(), item.getQuantity());
+		}
 
-		// generate a random number between
-		// 0 to AlphaNumericString variable length
-		int index
-				= (int)(AlphaNumericString.length()
-				* Math.random());
-
-		// add Character one by one in end of sb
-		sb.append(AlphaNumericString
-						  .charAt(index));
 	}
 
-	return sb.toString();
-}
+	String getSerial(int n){
+		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+				+ "0123456789"
+				+ "abcdefghijklmnopqrstuvxyz";
+
+		// create StringBuffer size of AlphaNumericString
+		StringBuilder sb = new StringBuilder(n);
+
+		for (int i = 0; i < n; i++) {
+
+			// generate a random number between
+			// 0 to AlphaNumericString variable length
+			int index
+					= (int)(AlphaNumericString.length()
+					* Math.random());
+
+			// add Character one by one in end of sb
+			sb.append(AlphaNumericString
+							  .charAt(index));
+		}
+
+		return sb.toString();
+	}
 	private boolean validate(Order order) {
 		return order != null && !order.getOrderItems().isEmpty() && order.getAccount() != null;
 	}
