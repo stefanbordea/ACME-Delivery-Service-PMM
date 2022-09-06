@@ -7,7 +7,6 @@ import com.acme.delivery.domain.PaymentMethod;
 import com.acme.delivery.domain.Product;
 import com.acme.delivery.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -15,10 +14,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -32,11 +27,6 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	@Override
 	public JpaRepository<Order, Long> getRepository() {
 		return orderRepository;
-	}
-
-
-	public Order newOrder(Account customer,PaymentMethod paymentMethod) {
-		return Order.builder().account(customer).paymentMethod(paymentMethod).build();
 	}
 
 	@Override
@@ -123,17 +113,15 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
 	@Override
 	public void addListOfItems(final Order order, final Set<OrderItem> items) {
-		for(OrderItem item:items){
+		for (OrderItem item : items) {
 
-			addItem(order,item.getProduct(), item.getQuantity());
+			addItem(order, item.getProduct(), item.getQuantity());
 		}
 
 	}
 
-	String getSerial(int n){
-		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-				+ "0123456789"
-				+ "abcdefghijklmnopqrstuvxyz";
+	String getSerial(int n) {
+		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
 
 		// create StringBuffer size of AlphaNumericString
 		StringBuilder sb = new StringBuilder(n);
@@ -142,17 +130,15 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 
 			// generate a random number between
 			// 0 to AlphaNumericString variable length
-			int index
-					= (int)(AlphaNumericString.length()
-					* Math.random());
+			int index = (int) (AlphaNumericString.length() * Math.random());
 
 			// add Character one by one in end of sb
-			sb.append(AlphaNumericString
-							  .charAt(index));
+			sb.append(AlphaNumericString.charAt(index));
 		}
 
 		return sb.toString();
 	}
+
 	private boolean validate(Order order) {
 		return order != null && !order.getOrderItems().isEmpty() && order.getAccount() != null;
 	}
