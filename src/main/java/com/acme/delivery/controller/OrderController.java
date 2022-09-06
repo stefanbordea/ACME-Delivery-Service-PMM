@@ -1,24 +1,22 @@
 package com.acme.delivery.controller;
 
-import com.acme.delivery.domain.Account;
+import com.acme.delivery.convert.OrderConvert;
 import com.acme.delivery.domain.Order;
-import com.acme.delivery.domain.PaymentMethod;
-import com.acme.delivery.domain.Product;
-import com.acme.delivery.service.AccountService;
 import com.acme.delivery.service.BaseService;
 import com.acme.delivery.service.OrderService;
-import com.acme.delivery.service.ProductService;
 import com.acme.delivery.transfer.ApiResponse;
+import com.acme.delivery.transfer.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,8 +26,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("orders")
 public class OrderController extends BaseController<Order> {
 	private final OrderService orderService;
-	private final AccountService accountService;
-	private final ProductService productService;
+	private final OrderConvert orderConvert;
 
 	@Override
 	protected BaseService<Order> getBaseService() {
@@ -37,30 +34,23 @@ public class OrderController extends BaseController<Order> {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<ApiResponse<Order>> NewOrder(@Email @RequestParam String email,
-													   @RequestParam List<String> serial,
-													   @RequestParam List<Integer> quantity,
-													   @Valid @RequestParam PaymentMethod paymentMethod) {
-		final Account customer = accountService.findByEmail(email);
-		final Order order = orderService.newOrder(customer);
+	public ResponseEntity<ApiResponse<Order>> NewOrder(@RequestBody OrderDto orderDto) {
 
-		for (int i = 0; i < serial.size(); i++) {
-			final Product product = productService.findBySerial(serial.get(i));
-			orderService.addItem(order, product, quantity.get(i));
-		}
-
-		final Order checkout = orderService.checkout(order, paymentMethod);
+		Order order = orderConvert.dtoToEntity(orderDto);
+		Order createOrder = orderService.newOrder(order.getAccount());
+		orderService.addListOfItems(createOrder, order.getOrderItems());
+		Order checkout = orderService.checkout(createOrder, order.getPaymentMethod());
 		return new ResponseEntity<>(ApiResponse.<Order>builder().data(checkout).build(), HttpStatus.CREATED);
 	}
 
 	@GetMapping(params = "submitdate")
-	public ResponseEntity<ApiResponse<List<Order>>> findBySumbitDate(@Valid @RequestParam Date submitdate) {
+	public ResponseEntity<ApiResponse<List<OrderDto>>> findBySumbitDate(@Valid @RequestParam Date submitdate) {
 		final List<Order> orders = orderService.findBySubmitDate(submitdate);
-
-		if (orders.isEmpty()) {
+		final List<OrderDto> orderDtos = orderConvert.entityToDto(orders);
+		if (orderDtos.isEmpty()) {
 			throw new NoSuchElementException("There are no orders for this date");
 		}
-		return ResponseEntity.ok(ApiResponse.<List<Order>>builder().data(orders).build());
+		return ResponseEntity.ok(ApiResponse.<List<OrderDto>>builder().data(orderDtos).build());
 	}
 
 }
