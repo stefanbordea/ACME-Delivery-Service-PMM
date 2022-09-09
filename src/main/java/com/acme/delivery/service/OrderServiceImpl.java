@@ -80,6 +80,11 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		logger.debug("Product[{}] removed from Order[{}]", product, order);
 	}
 
+	@Override
+	public List<Order> findOrdersByAccount_Email(final String email) {
+		return orderRepository.findOrdersByAccount_Email(email);
+	}
+
 	private boolean checkNullability(Order order, Product product) {
 		if (order == null) {
 			logger.warn("Order is null.");
@@ -104,8 +109,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		// Set all order fields with proper values
 		order.setSerial(getSerial(10));
 		order.setPaymentMethod(paymentMethod);
-		//order.setDeliveryAddress(order.getAccount().getAddresses().stream().findFirst().get());
-		order.setOrder_date((new Date()));
+		order.setDeliveryAddress(order.getAccount().getAddresses().stream().findFirst().get());
+		order.setOrder_date(new Date());
 		order.setTotalPrice(finalCost(order));
 
 		return create(order);
@@ -143,7 +148,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		return order != null && !order.getOrderItems().isEmpty() && order.getAccount() != null;
 	}
 
-	//@Override
+	@Override
 	public List<Order> findBySubmitDate(final Date submitDate) {
 		return orderRepository.findBySubmitDate(submitDate);
 	}

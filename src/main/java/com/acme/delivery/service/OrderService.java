@@ -19,13 +19,10 @@ public interface OrderService extends BaseService<Order>
 
 	void removeItem(Order order, Product product);
 
+	List<Order> findOrdersByAccount_Email(String email);
+
 	Order checkout(Order order, PaymentMethod paymentMethod);
 	void addListOfItems(Order order, Set<OrderItem> items);
 	List<Order> findBySubmitDate(Date submitDate);
-
-
-
-
-
 
 }
