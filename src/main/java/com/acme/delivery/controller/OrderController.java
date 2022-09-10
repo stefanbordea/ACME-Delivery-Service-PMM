@@ -1,11 +1,11 @@
 package com.acme.delivery.controller;
 
-import com.acme.delivery.convert.OrderConvert;
+import com.acme.delivery.converter.OrderConverter;
 import com.acme.delivery.domain.Order;
 import com.acme.delivery.service.BaseService;
 import com.acme.delivery.service.OrderService;
 import com.acme.delivery.transfer.ApiResponse;
-import com.acme.delivery.transfer.OrderDto;
+import com.acme.delivery.transfer.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 @RequestMapping("orders")
 public class OrderController extends BaseController<Order> {
 	private final OrderService orderService;
-	private final OrderConvert orderConvert;
+	private final OrderConverter orderConverter;
 
 	@Override
 	protected BaseService<Order> getBaseService() {
@@ -34,23 +34,23 @@ public class OrderController extends BaseController<Order> {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<ApiResponse<Order>> NewOrder(@RequestBody OrderDto orderDto) {
+	public ResponseEntity<ApiResponse<Order>> newOrder(@RequestBody OrderDTO orderDto) {
 
-		Order order = orderConvert.dtoToEntity(orderDto);
+		Order order = orderConverter.dtoToEntity(orderDto);
 		Order createOrder = orderService.newOrder(order.getAccount());
 		orderService.addListOfItems(createOrder, order.getOrderItems());
 		Order checkout = orderService.checkout(createOrder, order.getPaymentMethod());
 		return new ResponseEntity<>(ApiResponse.<Order>builder().data(checkout).build(), HttpStatus.CREATED);
 	}
 
-	@GetMapping(params = "submitdate")
-	public ResponseEntity<ApiResponse<List<OrderDto>>> findBySumbitDate(@Valid @RequestParam Date submitdate) {
-		final List<Order> orders = orderService.findBySubmitDate(submitdate);
-		final List<OrderDto> orderDtos = orderConvert.entityToDto(orders);
-		if (orderDtos.isEmpty()) {
+	@GetMapping(params = "submitDate")
+	public ResponseEntity<ApiResponse<List<OrderDTO>>> findBySubmitDate(@Valid @RequestParam Date submitDate) {
+		final List<Order> orders = orderService.findBySubmitDate(submitDate);
+		final List<OrderDTO> orderDTOS = orderConverter.entityToDto(orders);
+		if (orderDTOS.isEmpty()) {
 			throw new NoSuchElementException("There are no orders for this date");
 		}
-		return ResponseEntity.ok(ApiResponse.<List<OrderDto>>builder().data(orderDtos).build());
+		return ResponseEntity.ok(ApiResponse.<List<OrderDTO>>builder().data(orderDTOS).build());
 	}
 
 }
