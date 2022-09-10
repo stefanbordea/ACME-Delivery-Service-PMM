@@ -3,7 +3,6 @@ package com.acme.delivery.bootstrap;
 import com.acme.delivery.base.BaseComponent;
 import com.acme.delivery.domain.Address;
 import com.acme.delivery.domain.Product;
-import com.acme.delivery.domain.ProductCategory;
 import com.acme.delivery.domain.Store;
 import com.acme.delivery.domain.StoreCategory;
 import com.acme.delivery.service.ProductService;
@@ -14,8 +13,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.time.DayOfWeek;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +42,7 @@ public class StoreSampleContentCreator extends BaseComponent implements CommandL
 											 .name("Goody's")
 											 .phoneNumber("2102525095")
 											 .email("info@goodys.com")
-											 .categories(StoreCategory.BURGER_HOUSE)
+											 .category(StoreCategory.BURGER_HOUSE)
 											 .address(Address.builder()
 															  .street("28hs Oktovriou")
 															  .streetNumber("58")
@@ -58,7 +55,7 @@ public class StoreSampleContentCreator extends BaseComponent implements CommandL
 										  .name("Coffee island")
 										  .phoneNumber("2130439351")
 										  .email("info@coffeeisland.com")
-										  .categories(StoreCategory.COFFEE_SHOP)
+										  .category(StoreCategory.COFFEE_SHOP)
 										  .address(Address.builder()
 														  .street("El Alamein")
 														  .streetNumber("40")
@@ -67,8 +64,7 @@ public class StoreSampleContentCreator extends BaseComponent implements CommandL
 														  .build())
 										  .productsMenu(productsForSecondStore).build());
 
-//		storeService.createAll(stores);
-		stores.forEach(store -> storeService.create(store));
+		stores.forEach(storeService::create);
 
 	}
 }
