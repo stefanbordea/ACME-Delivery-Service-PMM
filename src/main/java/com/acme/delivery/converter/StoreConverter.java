@@ -1,4 +1,4 @@
-package com.acme.delivery.convert;
+package com.acme.delivery.converter;
 
 
 import com.acme.delivery.domain.Store;

@@ -1,4 +1,4 @@
-package com.acme.delivery.convert;
+package com.acme.delivery.converter;
 
 import com.acme.delivery.domain.Account;
 import com.acme.delivery.transfer.AccountOrdersDto;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
-public class AccountConvert {
+public class AccountConverter {
 	private final ModelMapper mapper;
 
 	public Account dtoToEntity(AccountOrdersDto accountOrdersDto) {

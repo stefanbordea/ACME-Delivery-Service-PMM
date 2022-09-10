@@ -1,7 +1,6 @@
 package com.acme.delivery.bootstrap;
 
 import com.acme.delivery.base.BaseComponent;
-import com.acme.delivery.convert.AccountConvert;
 import com.acme.delivery.domain.Account;
 import com.acme.delivery.domain.Order;
 import com.acme.delivery.domain.PaymentMethod;
@@ -9,14 +8,12 @@ import com.acme.delivery.domain.Product;
 import com.acme.delivery.service.AccountService;
 import com.acme.delivery.service.OrderService;
 import com.acme.delivery.service.ProductService;
-import com.acme.delivery.transfer.AccountOrdersDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 
 @org.springframework.core.annotation.Order(3)
 @Component

@@ -1,6 +1,6 @@
 package com.acme.delivery.controller;
 
-import com.acme.delivery.convert.StoreConverter;
+import com.acme.delivery.converter.StoreConverter;
 import com.acme.delivery.domain.Store;
 import com.acme.delivery.domain.StoreCategory;
 import com.acme.delivery.service.BaseService;
