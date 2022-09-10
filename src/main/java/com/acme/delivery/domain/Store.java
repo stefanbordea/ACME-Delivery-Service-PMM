@@ -8,7 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.DayOfWeek;
 import java.util.Set;
 
 @Getter
@@ -28,13 +27,14 @@ public class Store extends BaseModel {
 	private String phoneNumber;
 	@Column(length = 50, nullable = false)
 	private String email;
+	@Column(length = 20)
+	private String openDays;
 	@Enumerated(EnumType.STRING)
-	private DayOfWeek openDays;
-	@Enumerated(EnumType.STRING)
-	private StoreCategory categories;
+	private StoreCategory category;
 	@OneToOne
+	@Transient
 	private Address address;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "store_products", joinColumns = {@JoinColumn(name = "store_id")}, inverseJoinColumns = {@JoinColumn(name = "product_id")})
 	private Set<Product> productsMenu;
 }
