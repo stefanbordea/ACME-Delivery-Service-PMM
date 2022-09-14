@@ -3,10 +3,13 @@ package com.acme.delivery.controller;
 import com.acme.delivery.base.BaseComponent;
 import com.acme.delivery.domain.BaseModel;
 import com.acme.delivery.service.BaseService;
+import com.acme.delivery.transfer.ApiError;
 import com.acme.delivery.transfer.ApiResponse;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +17,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public abstract class BaseController<T extends BaseModel> extends BaseComponent {
 
@@ -63,4 +68,11 @@ public abstract class BaseController<T extends BaseModel> extends BaseComponent 
 		}
 	}
 
+	@ExceptionHandler({NoSuchElementException.class, EmptyResultDataAccessException.class})
+	public ResponseEntity<ApiResponse<ApiError>> handleNotFoundException(HttpServletRequest path) {
+		ApiError error = ApiError.builder().httpStatus(404).description("The resource you requested does not exist")
+								 .path(path.getRequestURI()).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+				ApiResponse.<ApiError>builder().apiError(error).build());
+	}
 }
