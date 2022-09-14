@@ -21,7 +21,6 @@ public class OrderConverter {
 
 	public OrderDTO entityToDto(Order order) {
 
-		ModelMapper mapper = new ModelMapper();
 		OrderDTO map = mapper.map(order, OrderDTO.class);
 		return map;
 
