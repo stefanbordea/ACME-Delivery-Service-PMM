@@ -31,12 +31,12 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 	}
 
 	@Override
-	public Store findStoreById(final Long id){
+	public Store findStoreById(final Long id) {
 		return storeRepository.findStoreById(id);
 	}
 
 	@Override
-	public void populateStoreObject(Store convertedStore, Store existingStore){
+	public void populateStoreObject(final Store convertedStore, final Store existingStore) {
 		existingStore.setName(convertedStore.getName());
 		existingStore.setPhoneNumber(convertedStore.getPhoneNumber());
 		existingStore.setEmail(convertedStore.getEmail());
@@ -44,5 +44,6 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 		existingStore.setCategory(convertedStore.getCategory());
 		existingStore.setAddress(convertedStore.getAddress());
 		existingStore.setProductsMenu(convertedStore.getProductsMenu());
+		storeRepository.save(existingStore);
 	}
 }
