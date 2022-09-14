@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -58,6 +59,9 @@ public class StoreController extends BaseController<Store> {
 	public ResponseEntity<ApiResponse<Store>> updateStore(@RequestBody StoreDTO store, @PathVariable Long id) {
 		final Store storeToBeUpdated = storeConverter.dtoToEntity(store);
 		Store storeById = storeService.findStoreById(id);
+		if (storeById == null) {
+			throw new NoSuchElementException();
+		}
 		storeService.populateStoreObject(storeToBeUpdated, storeById);
 		return new ResponseEntity<>(ApiResponse.<Store>builder().data(storeById).build(), HttpStatus.NO_CONTENT);
 	}
