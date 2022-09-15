@@ -46,6 +46,7 @@ public class OrderItem extends BaseModel {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JsonIgnore
+	@ToString.Exclude
 	private Order order;
 
 }
