@@ -57,16 +57,18 @@ public class ProductController extends BaseController<Product> {
 	public ResponseEntity<ApiResponse<Product>> createProduct(@Valid @RequestBody Product product) {
 		final Product createdProduct = productService.create(product);
 		if (product == null) {
-			throw new NoSuchElementException("Missing values in product");
+			throw new NoSuchElementException();
 		}
 		return new ResponseEntity<>(ApiResponse.<Product>builder().data(createdProduct).build(), HttpStatus.CREATED);
 	}
 
 	@PutMapping("update/{serial}")
-	public ResponseEntity<ApiResponse<Product>> updateProduct(@PathVariable(value = "serial") String productserial,
+	public ResponseEntity<ApiResponse<Product>> updateProduct(@PathVariable(value = "serial") String productSerial,
 															  @Valid @RequestBody Product updatedProduct) {
-		Product productToBeUpdated = productService.findBySerial(productserial);
-
+		Product productToBeUpdated = productService.findBySerial(productSerial);
+		if (productToBeUpdated == null) {
+			throw new NoSuchElementException();
+		}
 		productToBeUpdated.setName(updatedProduct.getName());
 		productToBeUpdated.setDescription(updatedProduct.getDescription());
 		productToBeUpdated.setPrice(updatedProduct.getPrice());
@@ -79,8 +81,11 @@ public class ProductController extends BaseController<Product> {
 
 	@DeleteMapping("delete/{serial}")
 	public ResponseEntity<ApiResponse<Product>> deleteProduct(@PathVariable String serial) {
-		productService.delete(productService.findBySerial(serial));
-
+		final Product productToBeDeleted = productService.findBySerial(serial);
+		if (productToBeDeleted == null) {
+			throw new NoSuchElementException();
+		}
+		productService.delete(productToBeDeleted);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

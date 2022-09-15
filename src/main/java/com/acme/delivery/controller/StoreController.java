@@ -38,7 +38,11 @@ public class StoreController extends BaseController<Store> {
 
 	@GetMapping(params = "name")
 	public ResponseEntity<ApiResponse<StoreDTO>> getStoreByName(@RequestParam String name) {
-		final StoreDTO storeByName = storeConverter.entityToDto(storeService.findByName(name));
+		final Store existingStore = storeService.findByName(name);
+		if (existingStore == null) {
+			throw new NoSuchElementException();
+		}
+		final StoreDTO storeByName = storeConverter.entityToDto(existingStore);
 		return ResponseEntity.ok(ApiResponse.<StoreDTO>builder().data(storeByName).build());
 	}
 
