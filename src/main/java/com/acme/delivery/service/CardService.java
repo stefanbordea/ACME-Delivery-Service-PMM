@@ -7,4 +7,5 @@ public interface CardService extends BaseService<Card> {
 	Card findById(Long id);
 
 	Card findByCardName(String name);
+	Card addCardToAccount(Card addedCard, String email);
 }

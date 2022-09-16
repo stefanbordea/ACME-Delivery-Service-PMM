@@ -1,35 +1,33 @@
 package com.acme.delivery.converter;
 
 import com.acme.delivery.domain.Account;
-import com.acme.delivery.transfer.AccountOrdersDto;
+import com.acme.delivery.transfer.AccountDTO;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
 public class AccountConverter {
 	private final ModelMapper mapper;
 
-	public Account dtoToEntity(AccountOrdersDto accountOrdersDto) {
+	public Account dtoToEntity(AccountDTO accountDTO) {
 
-		Account account = mapper.map(accountOrdersDto, Account.class);
+		Account account = mapper.map(accountDTO, Account.class);
 		return account;
 	}
 
-	public AccountOrdersDto entityToDto(Account account) {
+	public AccountDTO entityToDto(Account account) {
 
-		ModelMapper mapper = new ModelMapper();
-		AccountOrdersDto map = mapper.map(account, AccountOrdersDto.class);
+		AccountDTO map = mapper.map(account, AccountDTO.class);
 		return map;
 	}
 
-	public List<AccountOrdersDto> entityToDto(List<Account> accounts) {
+	public List<AccountDTO> entityToDto(List<Account> accounts) {
 
-		return accounts.stream().map(x -> entityToDto(x)).collect(Collectors.toList());
+		return accounts.stream().map(this::entityToDto).toList();
 	}
 
 }
