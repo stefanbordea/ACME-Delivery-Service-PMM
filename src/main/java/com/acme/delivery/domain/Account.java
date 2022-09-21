@@ -1,6 +1,5 @@
 package com.acme.delivery.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 @Getter
@@ -39,11 +39,13 @@ public class Account extends BaseModel {
 	@Column(length = 30, nullable = false)
 	@NotNull
 	@NotEmpty
+	@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$")
 	private String password;
 
 	@Column(length = 30, nullable = false, unique = true)
 	@NotEmpty
 	@NotNull
+	@Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")
 	private String phoneNumber;
 
 //	@JsonIgnore
