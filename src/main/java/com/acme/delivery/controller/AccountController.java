@@ -52,7 +52,7 @@ public class AccountController extends BaseController<Account>{
 }
 
 	@GetMapping(params = "phoneNumber")
-	public ResponseEntity<ApiResponse<Account>> findByPhoneNumber(@RequestParam String phoneNumber){
+	public ResponseEntity<ApiResponse<Account>> findByPhoneNumber(@Valid @RequestParam String phoneNumber){
 
 		final Account accountByPhoneNumber = accountService.findByPhoneNumber(phoneNumber);
 
@@ -165,6 +165,10 @@ public class AccountController extends BaseController<Account>{
 	@ResponseStatus (HttpStatus.NO_CONTENT)
 	@DeleteMapping(params = "email")
 	void deleteAccountByEmail(@Email @RequestParam String email){
+
+		if (email == null) {
+			throw new NoSuchElementException("Missing elements in account");
+		}
 		accountService.deleteAccountByEmail(email);
 	}
 
