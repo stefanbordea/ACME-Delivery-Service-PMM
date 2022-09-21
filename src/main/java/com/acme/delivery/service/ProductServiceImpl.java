@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl extends BaseServiceImpl<Product> implements ProductService {
@@ -24,6 +27,11 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 	@Override
 	public Product findByName(final String name) {
 		return productRepository.findByName(name);
+	}
+
+	@Override
+	public List<Map<Integer, Integer>> tenMostFamousProducts() {
+		return productRepository.tenMostFamousProducts();
 	}
 }
 
