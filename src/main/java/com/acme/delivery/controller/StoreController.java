@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -50,6 +51,27 @@ public class StoreController extends BaseController<Store> {
 	public ResponseEntity<ApiResponse<List<StoreDTO>>> getStoresByCategory(@RequestParam StoreCategory category) {
 		final List<StoreDTO> storesByCategory = storeConverter.entityToDto(storeService.findByCategory(category));
 		return ResponseEntity.ok(ApiResponse.<List<StoreDTO>>builder().data(storesByCategory).build());
+	}
+
+	@GetMapping("mostFamous")
+	public ResponseEntity<ApiResponse<List<Map<Integer, String>>>> findMostFamousStores() {
+
+		final List<Map<Integer, String>> mostFamousStores = storeService.mostFamousStores();
+
+		if(mostFamousStores== null){
+			throw new NoSuchElementException("Element not found");
+		}
+		return ResponseEntity.ok(ApiResponse.<List<Map<Integer, String>>>builder().data(mostFamousStores).build());
+	}
+	@GetMapping("mostFamousByCategory")
+	public ResponseEntity<ApiResponse<List<Map<Integer, Integer>>>> findMostFamousStoresByCategory() {
+
+		final List<Map<Integer, Integer>> mostFamousStoresByCategory = storeService.mostFamousStoresByCategory();
+
+		if(mostFamousStoresByCategory== null){
+			throw new NoSuchElementException("Element not found");
+		}
+		return ResponseEntity.ok(ApiResponse.<List<Map<Integer, Integer>>>builder().data(mostFamousStoresByCategory).build());
 	}
 
 	@PostMapping("create")
