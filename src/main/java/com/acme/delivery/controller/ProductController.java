@@ -1,5 +1,6 @@
 package com.acme.delivery.controller;
 
+
 import com.acme.delivery.domain.Product;
 import com.acme.delivery.service.BaseService;
 import com.acme.delivery.service.ProductService;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -25,7 +28,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping("products")
 public class ProductController extends BaseController<Product> {
-	//todo: ADD VALIDATION AND CHECKING FOR EVERYTHING
 	private final ProductService productService;
 
 	@Override
@@ -51,6 +53,17 @@ public class ProductController extends BaseController<Product> {
 			throw new NoSuchElementException("Element not found");
 		}
 		return ResponseEntity.ok(ApiResponse.<Product>builder().data(productBySerial).build());
+	}
+
+	@GetMapping("mostFamous")
+	public ResponseEntity<ApiResponse<List<Map<Integer, Integer>>>> findMostFamousProducts() {
+
+		final List<Map<Integer, Integer>> mostFamousProducts = productService.tenMostFamousProducts();
+
+		if( mostFamousProducts == null){
+			throw new NoSuchElementException("Element not found");
+		}
+		return ResponseEntity.ok(ApiResponse.<List<Map<Integer, Integer>>>builder().data(mostFamousProducts).build());
 	}
 
 	@PostMapping("create")
