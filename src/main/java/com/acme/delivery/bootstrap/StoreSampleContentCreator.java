@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Order(4)
+@Order(3)
 @Component
 @Profile("generate-stores")
 @RequiredArgsConstructor
@@ -37,6 +37,12 @@ public class StoreSampleContentCreator extends BaseComponent implements CommandL
 
 		Set<Product> productsForSecondStore = new HashSet<>();
 		productsForSecondStore.add(productService.findBySerial("Y1002389934"));
+
+		Set<Product> productsForThirdStore = new HashSet<>();
+		productsForThirdStore.add(productService.findBySerial("L1012309900"));
+		productsForThirdStore.add(productService.findBySerial("Z1002389910"));
+		productsForThirdStore.add(productService.findBySerial("Y1002389934"));
+
 
 		List<Store> stores = List.of(Store.builder()
 											 .name("Goody's")
@@ -62,7 +68,22 @@ public class StoreSampleContentCreator extends BaseComponent implements CommandL
 														  .zipCode("14231")
 														  .region("Athens")
 														  .build())
-										  .productsMenu(productsForSecondStore).build());
+										  .productsMenu(productsForSecondStore).build(),
+
+									 Store.builder()
+										  .name("Aivali")
+										  .phoneNumber("211435360")
+										  .email("info@aivali.com")
+										  .category(StoreCategory.SOUVLAKI_SHOP)
+										  .address(Address.builder()
+														  .street("Agias Eleutherias")
+														  .streetNumber("40")
+														  .zipCode("14050")
+														  .region("Athens")
+														  .build())
+										  .productsMenu(productsForThirdStore).build());
+
+
 
 		stores.forEach(storeService::create);
 
