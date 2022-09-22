@@ -12,7 +12,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findOrdersByAccount_Email(String email);
 
 	//add custom methods in a few ours or days!
-	@Query("SELECT o FROM Order o WHERE o.order_date=:date")
+	@Query("SELECT o FROM Order o WHERE o.orderDate=:date")
 	List<Order> findBySubmitDate(Date date);
 
 }

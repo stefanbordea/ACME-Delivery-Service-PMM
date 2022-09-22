@@ -115,7 +115,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		order.setSerial(getSerial(10));
 		order.setPaymentMethod(paymentMethod);
 		order.setDeliveryAddress(order.getAccount().getAddresses().stream().findFirst().get());
-		order.setOrder_date(new Date());
+		order.setOrderDate(new Date());
 		order.setTotalPrice(finalCost(order));
 
 		return create(order);

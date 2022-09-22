@@ -48,7 +48,7 @@ public class Order extends BaseModel {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	@NotNull
-	private Date order_date;
+	private Date orderDate;
 
 	@Column(precision = 15, scale = 2, nullable = false)
 	@Min(value = 0)
