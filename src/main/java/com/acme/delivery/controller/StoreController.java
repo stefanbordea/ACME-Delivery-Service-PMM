@@ -28,7 +28,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @RequestMapping("stores")
 public class StoreController extends BaseController<Store> {
-	//TODO: exception handling and validation
 	private final StoreService storeService;
 	private final StoreConverter storeConverter;
 
@@ -48,8 +47,9 @@ public class StoreController extends BaseController<Store> {
 	}
 
 	@GetMapping(params = "category")
-	public ResponseEntity<ApiResponse<List<StoreDTO>>> getStoresByCategory(@RequestParam StoreCategory category) {
-		final List<StoreDTO> storesByCategory = storeConverter.entityToDto(storeService.findByCategory(category));
+	public ResponseEntity<ApiResponse<List<StoreDTO>>> getStoresByCategory(@RequestParam String category) {
+		final List<StoreDTO> storesByCategory =
+				storeConverter.entityToDto(storeService.findByCategory(StoreCategory.valueOf(category.toUpperCase())));
 		return ResponseEntity.ok(ApiResponse.<List<StoreDTO>>builder().data(storesByCategory).build());
 	}
 
