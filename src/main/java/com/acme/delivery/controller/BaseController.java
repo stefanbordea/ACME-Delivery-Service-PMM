@@ -68,7 +68,7 @@ public abstract class BaseController<T extends BaseModel> extends BaseComponent 
 		}
 	}
 
-	@ExceptionHandler({NoSuchElementException.class, EmptyResultDataAccessException.class})
+	@ExceptionHandler({NoSuchElementException.class, EmptyResultDataAccessException.class, IllegalArgumentException.class})
 	public ResponseEntity<ApiResponse<ApiError>> handleNotFoundException(HttpServletRequest path) {
 		ApiError error = ApiError.builder().httpStatus(404).description("The resource you requested does not exist")
 								 .path(path.getRequestURI()).build();
