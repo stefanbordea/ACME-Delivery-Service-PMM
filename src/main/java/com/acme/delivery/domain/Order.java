@@ -29,6 +29,11 @@ public class Order extends BaseModel {
 	private Account account;
 
 	@OneToOne
+	@JoinColumn
+	@NotNull
+	private Store store;
+
+	@OneToOne
 	@NotNull
 	private Address deliveryAddress;
 

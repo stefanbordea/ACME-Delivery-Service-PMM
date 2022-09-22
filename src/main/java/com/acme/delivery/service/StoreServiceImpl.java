@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +46,15 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 		existingStore.setAddress(convertedStore.getAddress());
 		existingStore.setProductsMenu(convertedStore.getProductsMenu());
 		storeRepository.save(existingStore);
+	}
+
+	@Override
+	public List<Map<Integer, String>> mostFamousStores() {
+		return storeRepository.mostFamousStores();
+	}
+
+	@Override
+	public List<Map<Integer, String>> mostFamousStoresByCategory(String category) {
+		return storeRepository.mostFamousStoresByCategory(category);
 	}
 }

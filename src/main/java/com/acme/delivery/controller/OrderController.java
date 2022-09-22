@@ -37,7 +37,7 @@ public class OrderController extends BaseController<Order> {
 	public ResponseEntity<ApiResponse<Order>> newOrder(@RequestBody OrderDTO orderDto) {
 
 		Order order = orderConverter.dtoToEntity(orderDto);
-		Order createOrder = orderService.newOrder(order.getAccount());
+		Order createOrder = orderService.newOrder(order.getAccount(), order.getStore());
 		orderService.addListOfItems(createOrder, order.getOrderItems());
 		Order checkout = orderService.checkout(createOrder, order.getPaymentMethod());
 		return new ResponseEntity<>(ApiResponse.<Order>builder().data(checkout).build(), HttpStatus.CREATED);

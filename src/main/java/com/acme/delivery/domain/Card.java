@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Getter
@@ -36,7 +37,8 @@ public class Card extends BaseModel {
 	private Account account;
 	@Column(length = 16, nullable = false)
 	@NotNull
-	private Long cardNumber;
+	@Pattern(regexp = "^[0-9]{12,}(?:[0-9]{3})?$")
+	private String cardNumber;
 	@Column(length = 30, nullable = false)
 	@NotNull
 	@NotEmpty
@@ -44,7 +46,8 @@ public class Card extends BaseModel {
 	@Column(length = 5, nullable = false)
 	@NotNull
 	private LocalDate cardExpirationDate;
-	@Column(length = 3, nullable = false)
+	@Column(length = 4, nullable = false)
 	@NotNull
-	private Integer cardSecurityCode;
+	@Pattern(regexp = "^[0-9]{3,4}$")
+	private String cardSecurityCode;
 }

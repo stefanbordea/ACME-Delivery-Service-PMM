@@ -5,6 +5,7 @@ import com.acme.delivery.domain.Order;
 import com.acme.delivery.domain.OrderItem;
 import com.acme.delivery.domain.PaymentMethod;
 import com.acme.delivery.domain.Product;
+import com.acme.delivery.domain.Store;
 import com.acme.delivery.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,9 +31,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	}
 
 	@Override
-	public Order newOrder(final Account customer) {
+	public Order newOrder(final Account customer, final Store store) {
 
-		return Order.builder().account(customer).orderItems(new HashSet<>()).build();
+		return Order.builder()
+					.account(customer)
+					.store(store)
+					.orderItems(new HashSet<>()).build();
 	}
 
 	@Override
@@ -107,6 +111,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 		}
 
 		// Set all order fields with proper values
+		order.setStore(order.getStore());
 		order.setSerial(getSerial(10));
 		order.setPaymentMethod(paymentMethod);
 		order.setDeliveryAddress(order.getAccount().getAddresses().stream().findFirst().get());
