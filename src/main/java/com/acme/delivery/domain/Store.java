@@ -31,8 +31,7 @@ public class Store extends BaseModel {
 	private String openDays;
 	@Enumerated(EnumType.STRING)
 	private StoreCategory category;
-	@OneToOne
-	@Transient
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Address address;
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "store_products", joinColumns = {@JoinColumn(name = "store_id")}, inverseJoinColumns = {@JoinColumn(name = "product_id")})
