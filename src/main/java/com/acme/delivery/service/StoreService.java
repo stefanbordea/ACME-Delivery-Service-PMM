@@ -16,5 +16,5 @@ public interface StoreService extends BaseService<Store> {
 
 	void populateStoreObject(Store convertedStore, Store existingStore);
 	List<Map<Integer, String>> mostFamousStores();
-	List<Map <Integer, Integer>> mostFamousStoresByCategory();
+	List<Map <Integer, String>> mostFamousStoresByCategory(String category);
 }

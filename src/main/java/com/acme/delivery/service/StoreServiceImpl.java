@@ -54,7 +54,7 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 	}
 
 	@Override
-	public List<Map<Integer, Integer>> mostFamousStoresByCategory() {
-		return storeRepository.mostFamousStoresByCategory();
+	public List<Map<Integer, String>> mostFamousStoresByCategory(String category) {
+		return storeRepository.mostFamousStoresByCategory(category);
 	}
 }

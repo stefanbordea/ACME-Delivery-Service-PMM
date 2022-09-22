@@ -55,7 +55,6 @@ public class StoreController extends BaseController<Store> {
 
 	@GetMapping("mostFamous")
 	public ResponseEntity<ApiResponse<List<Map<Integer, String>>>> findMostFamousStores() {
-
 		final List<Map<Integer, String>> mostFamousStores = storeService.mostFamousStores();
 
 		if(mostFamousStores== null){
@@ -63,15 +62,13 @@ public class StoreController extends BaseController<Store> {
 		}
 		return ResponseEntity.ok(ApiResponse.<List<Map<Integer, String>>>builder().data(mostFamousStores).build());
 	}
-	@GetMapping("mostFamousByCategory")
-	public ResponseEntity<ApiResponse<List<Map<Integer, Integer>>>> findMostFamousStoresByCategory() {
-
-		final List<Map<Integer, Integer>> mostFamousStoresByCategory = storeService.mostFamousStoresByCategory();
-
+	@GetMapping(value = "mostFamousByCategory", params = "category")
+	public ResponseEntity<ApiResponse<List<Map<Integer, String>>>> findMostFamousStoresByCategory(@RequestParam String category) {
+		final List<Map<Integer, String>> mostFamousStoresByCategory = storeService.mostFamousStoresByCategory(category.toUpperCase());
 		if(mostFamousStoresByCategory== null){
 			throw new NoSuchElementException("Element not found");
 		}
-		return ResponseEntity.ok(ApiResponse.<List<Map<Integer, Integer>>>builder().data(mostFamousStoresByCategory).build());
+		return ResponseEntity.ok(ApiResponse.<List<Map<Integer, String>>>builder().data(mostFamousStoresByCategory).build());
 	}
 
 	@PostMapping("create")
