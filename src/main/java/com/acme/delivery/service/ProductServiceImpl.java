@@ -30,7 +30,7 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
 	}
 
 	@Override
-	public List<Map<Integer, Integer>> tenMostFamousProducts() {
+	public List<Map<Integer, String>> tenMostFamousProducts() {
 		return productRepository.tenMostFamousProducts();
 	}
 }

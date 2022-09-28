@@ -9,5 +9,5 @@ public interface ProductService extends BaseService<Product> {
 	Product findBySerial(String serial);
 
 	Product findByName(String name);
-	List<Map<Integer, Integer>> tenMostFamousProducts();
+	List<Map<Integer, String>> tenMostFamousProducts();
 }
