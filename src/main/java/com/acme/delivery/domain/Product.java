@@ -36,7 +36,7 @@ public class Product extends BaseModel {
 	@Column(length = 50, nullable = false)
 	@NotEmpty
 	private String name;
-	@Column(length = 100)
+	@Column(length = 150)
 	@NotEmpty
 	private String description;
 	@Column(precision = 10, scale = 2, nullable = false)
