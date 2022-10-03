@@ -65,6 +65,52 @@ public class OrderSampleContentCreator extends BaseComponent implements CommandL
 
 		orderService.checkout(orderThree, PaymentMethod.CARD);
 
+		Store storePizza = storeService.findStoreById(18L);
+		Product pizzaOneProduct = productService.findBySerial("S199992999");
+		Product pizzaTwoProduct = productService.findBySerial("S199993999");
+		Product pizzaThreeProduct = productService.findBySerial("S199996999");
+
+
+		Order orderPizza = orderService.newOrder(secondAccount, storePizza);
+
+		orderService.addItem(orderPizza, pizzaOneProduct, 2 );
+		orderService.addItem(orderPizza, pizzaTwoProduct, 4 );
+		orderService.addItem(orderPizza, pizzaThreeProduct, 12);
+
+		orderService.checkout(orderPizza,PaymentMethod.CASH);
+
+		Store storeBurger = storeService.findStoreById(4L);
+		Product burgerOneProduct = productService.findBySerial("S199999998");
+		Product burgerTwoProduct = productService.findBySerial("S199999995");
+		Product burgerThreeProduct = productService.findBySerial("S199999996");
+		Product burgerFourProduct = productService.findBySerial("S199999994");
+
+
+		Order orderBurger = orderService.newOrder(secondAccount, storeBurger);
+
+		orderService.addItem(orderBurger, burgerOneProduct, 2 );
+		orderService.addItem(orderBurger, burgerTwoProduct, 4 );
+		orderService.addItem(orderBurger, burgerThreeProduct, 9);
+		orderService.addItem(orderBurger, burgerFourProduct, 1);
+
+		orderService.checkout(orderBurger,PaymentMethod.CARD);
+
+		Store storeCocktail = storeService.findStoreById(20L);
+		Product cocktailOneProduct = productService.findBySerial("S099999999");
+		Product cocktailTwoProduct = productService.findBySerial("T199999999");
+		Product cocktailThreeProduct = productService.findBySerial("U199999999");
+		Product cocktailFourProduct = productService.findBySerial("P199999999");
+
+
+		Order orderCocktail = orderService.newOrder(secondAccount, storeCocktail);
+
+		orderService.addItem(orderCocktail, cocktailOneProduct, 17 );
+		orderService.addItem(orderCocktail, cocktailTwoProduct, 22 );
+		orderService.addItem(orderCocktail, cocktailThreeProduct, 30);
+		orderService.addItem(orderCocktail, cocktailFourProduct, 5);
+
+		orderService.checkout(orderCocktail,PaymentMethod.CARD);
+
 		Store storeThree = storeService.findStoreById(2L);
 		Product fifthProduct = productService.findBySerial("Y1002389934");
 
