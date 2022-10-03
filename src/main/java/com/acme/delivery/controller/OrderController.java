@@ -45,7 +45,7 @@ public class OrderController extends BaseController<Order> {
 
 	@GetMapping(params = "submitDate")
 	public ResponseEntity<ApiResponse<List<OrderDTO>>> findBySubmitDate(@Valid @RequestParam Date submitDate) {
-		final List<Order> orders = orderService.findBySubmitDate(submitDate);
+		final List<Order> orders = orderService.findOrdersByOrderDate(submitDate);
 		final List<OrderDTO> orderDTOS = orderConverter.entityToDto(orders);
 		if (orderDTOS.isEmpty()) {
 			throw new NoSuchElementException("There are no orders for this date");
