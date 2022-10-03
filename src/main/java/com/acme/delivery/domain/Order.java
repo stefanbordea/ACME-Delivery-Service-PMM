@@ -45,7 +45,7 @@ public class Order extends BaseModel {
 	@Column(length = 50, nullable = false)
 	private String serial;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	@NotNull
 	private Date orderDate;
