@@ -1,4 +1,5 @@
 package com.acme.delivery.service;
+
 import com.acme.delivery.domain.Account;
 import com.acme.delivery.domain.Order;
 import com.acme.delivery.domain.OrderItem;
@@ -10,8 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public interface OrderService extends BaseService<Order>
-{
+public interface OrderService extends BaseService<Order> {
 	Order newOrder(Account customer, Store store);
 
 	void addItem(Order order, Product product, int quantity);
@@ -23,7 +23,9 @@ public interface OrderService extends BaseService<Order>
 	List<Order> findOrdersByAccount_Email(String email);
 
 	Order checkout(Order order, PaymentMethod paymentMethod);
+
 	void addListOfItems(Order order, Set<OrderItem> items);
-	List<Order> findBySubmitDate(Date submitDate);
+
+	List<Order> findOrdersByOrderDate(Date submitDate);
 
 }

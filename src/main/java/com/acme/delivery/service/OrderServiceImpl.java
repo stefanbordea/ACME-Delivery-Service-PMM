@@ -33,10 +33,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	@Override
 	public Order newOrder(final Account customer, final Store store) {
 
-		return Order.builder()
-					.account(customer)
-					.store(store)
-					.orderItems(new HashSet<>()).build();
+		return Order.builder().account(customer).store(store).orderItems(new HashSet<>()).build();
 	}
 
 	@Override
@@ -154,8 +151,8 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
 	}
 
 	@Override
-	public List<Order> findBySubmitDate(final Date submitDate) {
-		return orderRepository.findBySubmitDate(submitDate);
+	public List<Order> findOrdersByOrderDate(final Date submitDate) {
+		return orderRepository.findOrdersByOrderDate(submitDate);
 	}
 
 	private BigDecimal finalCost(Order order) {
